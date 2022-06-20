@@ -13,6 +13,6 @@ namespace EventPlanning.Bl.Services.Abstract
 
         Task<bool> ConfirmEmailAsync(ConfirmEmailDTO confirmEmailDTO);
 
-        Task AddMoreInformation(UserInformationDTO userInformationDto);        
+        Task AddMoreInformation(UserInformationDTO userInformationDto, int userId);        
     }
 }

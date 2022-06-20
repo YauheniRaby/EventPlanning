@@ -2,6 +2,7 @@
 using EventPlanning.AutoMap;
 using EventPlanning.Bl.Services;
 using EventPlanning.Bl.Services.Abstract;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EventPlanning.Extensions
@@ -14,7 +15,8 @@ namespace EventPlanning.Extensions
             services.AddSingleton<IEmailService, EmailService>();
             services.AddSingleton<ICaseService, CaseService>();
             services.AddSingleton<IParticipationService, ParticipationService>();
-            
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddSingleton<ISmsService, SmsService>(); 
             services.AddSingleton<IMapper>(service => new Mapper(MapperConfig.GetConfiguration()));
 

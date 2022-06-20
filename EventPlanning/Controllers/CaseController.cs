@@ -2,7 +2,9 @@
 using EventPlanning.Bl.DTOs;
 using EventPlanning.Bl.Services.Abstract;
 using EventPlanning.DA.Models;
+using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
@@ -16,20 +18,25 @@ namespace EventPlanning.Controllers
     {
         private readonly ICaseService _caseService;
         private readonly IOptionsMonitor<AppMessages> _optionsMonitor;
-        ISmsService _smsService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CaseController(ICaseService caseService, IOptionsMonitor<AppMessages> optionsMonitor, ISmsService smsService)
+        public CaseController(
+            ICaseService caseService, 
+            IOptionsMonitor<AppMessages> optionsMonitor,
+            IHttpContextAccessor httpContextAccessor
+            )
         {
             _caseService = caseService;
             _optionsMonitor = optionsMonitor;
-            _smsService = smsService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpPost]
         [Authorize]
         public async Task<ActionResult> AddAsync([FromBody] CaseCreateDTO caseDTO)
         {
-            await _caseService.AddAsync(caseDTO);
+            var userId = int.TryParse(_httpContextAccessor.HttpContext.User.GetSubjectId(), out var value) ? value : default;
+            await _caseService.AddAsync(caseDTO, userId);
             return Ok();
         }
 
@@ -40,8 +47,8 @@ namespace EventPlanning.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<CaseView>> GetByIdAsync(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<CaseView>> GetByIdAsync([FromRoute] int id)
         {
             if(await _caseService.ExistsAsync(id))
             {

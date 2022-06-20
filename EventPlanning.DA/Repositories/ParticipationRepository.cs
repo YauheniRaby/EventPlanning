@@ -48,7 +48,7 @@ namespace EventPlanning.DA.Repositories
 
         public Task<int> GetByAsync(int participationId)
         {
-            return _context.Participations.Where(x=> x.Id == participationId).Select(x=>x.Id).FirstOrDefaultAsync();
+            return _context.Participations.Where(x=> x.Id == participationId).Select(x=>x.VerifiedCode).FirstOrDefaultAsync();
         }
     }
 }

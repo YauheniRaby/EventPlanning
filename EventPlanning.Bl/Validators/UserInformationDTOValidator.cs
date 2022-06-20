@@ -7,8 +7,6 @@ namespace EventPlanning.Bl.Vlidators
     {
         public UserInformationDTOValidator()
         {
-            RuleFor(w => w.Id)
-                .NotNull();
             RuleFor(w => w.Name)
                 .MaximumLength(25);
             RuleFor(w => w.Adress)

@@ -26,6 +26,7 @@ namespace EventPlanning.AutoMap
                 .ForMember(dest => dest.Login, opt => opt.Ignore())
                 .ForMember(dest => dest.IsVerifiedEmail, opt => opt.Ignore())
                 .ForMember(dest => dest.HashPassword, opt => opt.Ignore())
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Salt, opt => opt.Ignore())
                 .ForMember(dest => dest.IsRemove, opt => opt.Ignore())
                 .ForMember(dest => dest.CasesOwner, opt => opt.Ignore())

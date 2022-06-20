@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using IdentityServer4.Extensions;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace EventPlanning.Controllers
 {
@@ -22,7 +23,7 @@ namespace EventPlanning.Controllers
         public UserController(
             IUserService userService, 
             IOptionsMonitor<AppMessages> appMessages, 
-            IOptionsMonitor<MessageTemplates> messageTemplates, 
+            IOptionsMonitor<MessageTemplates> messageTemplates,
             IHttpContextAccessor httpContextAccessor)
         {
             _userService = userService;
@@ -34,6 +35,10 @@ namespace EventPlanning.Controllers
         [HttpPost]
         public async Task<ActionResult> RegistrationAsync ([FromBody] UserCredentialsDTO userCredentialsDto)
         {
+            if (_httpContextAccessor.HttpContext.User.Claims.Count() != 0)
+            {
+                return Forbid();
+            }
             if (await _userService.ExistsAsync(userCredentialsDto.Login))
             {
                 return BadRequest(_appMessages.CurrentValue.UserExist);
@@ -58,9 +63,9 @@ namespace EventPlanning.Controllers
         public async Task<ActionResult> AddMoreInformation([FromBody] UserInformationDTO userInformationDto)
         {
             var userId = int.TryParse(_httpContextAccessor.HttpContext.User.GetSubjectId(), out var value)? value: default;
-            if (userInformationDto.Id == userId && await _userService.ExistsAsync(userInformationDto.Id))
+            if (await _userService.ExistsAsync(userId))
             {
-                await _userService.AddMoreInformation(userInformationDto);
+                await _userService.AddMoreInformation(userInformationDto, userId);
                 return Ok();
             }
             return BadRequest();

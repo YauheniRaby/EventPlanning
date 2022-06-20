@@ -7,8 +7,6 @@ namespace EventPlanning.Bl.Vlidators
     {
         public CaseCreateDTOValidator()
         {
-            RuleFor(w => w.UserId)
-                .NotEmpty();
             RuleFor(w => w.Name)
                 .NotEmpty()
                 .MaximumLength(100);

@@ -21,9 +21,10 @@ namespace EventPlanning.Bl.Services
             _caseRepository = caseRepository;
         }
 
-        public Task AddAsync(CaseCreateDTO caseDTO)
+        public Task AddAsync(CaseCreateDTO caseDTO, int userId)
         {
             var newCase = _mapper.Map<Case>(caseDTO);
+            newCase.UserId = userId;
             return _caseRepository.AddAsync(newCase);
         }
 
@@ -45,8 +46,7 @@ namespace EventPlanning.Bl.Services
 
         public async Task<CaseDTO> GetByIdAsync(int id)
         {
-            var result = _mapper.Map<CaseDTO>(await _caseRepository.GetByIdAsync(id));
-            return result;
+            return _mapper.Map<CaseDTO>(await _caseRepository.GetByIdAsync(id));
         }  
     }
 }

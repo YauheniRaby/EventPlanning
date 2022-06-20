@@ -68,7 +68,7 @@ namespace EventPlanning.DA.Repositories
                         UserLogin = x.User.Login,
                         CaseParams = x.CaseParams.Select(y => new CaseParamView { Name = y.Name, Value = y.Value })
                     })                
-                .FirstAsync(x=>x.Id == id);
+                .FirstOrDefaultAsync(x=>x.Id == id);
         }        
     }
 }

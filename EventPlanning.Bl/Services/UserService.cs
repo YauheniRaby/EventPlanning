@@ -18,7 +18,11 @@ namespace EventPlanning.Bl.Services
         private readonly IEmailService _emailService;
         private readonly IOptionsMonitor<AppConfiguration> _optionsMonitor;
 
-        public UserService (IUserRepository userRepository, IMapper mapper, IEmailService emailService, IOptionsMonitor<AppConfiguration> optionsMonitor)
+        public UserService (
+            IUserRepository userRepository, 
+            IMapper mapper, 
+            IEmailService emailService, 
+            IOptionsMonitor<AppConfiguration> optionsMonitor)
         {
             _userRepository = userRepository;
             _emailService = emailService;
@@ -70,9 +74,9 @@ namespace EventPlanning.Bl.Services
             return false;
         }
 
-        public Task AddMoreInformation(UserInformationDTO userInformationDto)
+        public Task AddMoreInformation(UserInformationDTO userInformationDto, int userId)
         {
-            var cuurentUser = _userRepository.GetByIdAsync(userInformationDto.Id);
+            var cuurentUser = _userRepository.GetByIdAsync(userId);
             var result = _mapper.Map(userInformationDto, cuurentUser);
             return _userRepository.UpdateAsync(result);
         }

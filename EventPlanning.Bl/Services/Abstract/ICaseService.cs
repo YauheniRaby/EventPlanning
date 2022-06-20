@@ -6,7 +6,7 @@ namespace EventPlanning.Bl.Services.Abstract
 {
     public interface ICaseService
     {
-        Task AddAsync(CaseCreateDTO caseDTO);
+        Task AddAsync(CaseCreateDTO caseDTO, int userId);
 
         Task<List<CaseShortDTO>> GetAllAsync();
 
