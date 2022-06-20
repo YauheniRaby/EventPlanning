@@ -17,18 +17,18 @@ namespace EventPlanning.Controllers
         private readonly IUserService _userService;
         private readonly IOptionsMonitor<AppMessages> _appMessages;
         private readonly IOptionsMonitor<MessageTemplates> _messageTemplates;
-        //private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UserController(
             IUserService userService, 
             IOptionsMonitor<AppMessages> appMessages, 
-            IOptionsMonitor<MessageTemplates> messageTemplates) 
-            //IHttpContextAccessor httpContextAccessor)
+            IOptionsMonitor<MessageTemplates> messageTemplates, 
+            IHttpContextAccessor httpContextAccessor)
         {
             _userService = userService;
             _appMessages = appMessages;
             _messageTemplates = messageTemplates;
-            //_httpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpPost]
@@ -57,8 +57,7 @@ namespace EventPlanning.Controllers
         [Authorize]
         public async Task<ActionResult> AddMoreInformation([FromBody] UserInformationDTO userInformationDto)
         {
-            //var userId = int.TryParse(_httpContextAccessor.HttpContext.User.GetSubjectId(), out var value)? value: default;
-            var userId = 1;
+            var userId = int.TryParse(_httpContextAccessor.HttpContext.User.GetSubjectId(), out var value)? value: default;
             if (userInformationDto.Id == userId && await _userService.ExistsAsync(userInformationDto.Id))
             {
                 await _userService.AddMoreInformation(userInformationDto);

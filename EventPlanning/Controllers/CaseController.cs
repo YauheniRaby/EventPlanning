@@ -36,7 +36,6 @@ namespace EventPlanning.Controllers
         [HttpGet("all")]
         public async Task<ActionResult<List<CaseShortDTO>>> GetAllAsync()
         {
-            _smsService.GetToken();
             var result = await _caseService.GetAllAsync();
             return Ok(result);
         }

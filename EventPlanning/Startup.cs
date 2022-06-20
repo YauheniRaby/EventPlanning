@@ -1,7 +1,6 @@
 using EventPlanning.Bl.Configuration;
 using EventPlanning.DA.Configuration;
 using EventPlanning.Extensions;
-using FluentValidation.AspNetCore;
 using Hangfire;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
