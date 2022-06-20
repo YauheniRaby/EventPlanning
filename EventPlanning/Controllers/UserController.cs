@@ -53,7 +53,7 @@ namespace EventPlanning.Controllers
             if (await _userService.ExistsAsync(confirmEmailDto.UserId))
             {
                 if(await _userService.ConfirmEmailAsync(confirmEmailDto))
-                    return Ok(_messageTemplates.CurrentValue.AcceptedCode);
+                    return Content(_messageTemplates.CurrentValue.AcceptedCode);
             }
             return BadRequest();
         }
